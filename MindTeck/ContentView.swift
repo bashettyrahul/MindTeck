@@ -11,11 +11,23 @@ struct ContentView: View {
     let images = ["maharashtraIcon", "karnataka", "andhraPradesh"]
     @State private var selectedIndex = 0
     @State private var searchText = ""
-    let listItems = ["Pune", "Delhi", "Mumbai", "Bangalore", "Kochi", "Surat", "Jaipur", "Nodia", "Kerela"]
-    let imageItems = ["puneCityIcon", "mumbaiCityIcon", "nagpurCityIcon", "puneCityIcon", "mumbaiCityIcon", "nagpurCityIcon", "puneCityIcon", "mumbaiCityIcon", "nagpurCityIcon"]
+    
+    let listItemsDictionary = [
+        0: ["Pune", "Mumbai", "Nagpur"],
+        1: ["Bangalore", "Mysore", "Hubli"],
+        2: ["Hyderabad", "Vijayawada", "Visakhapatnam"]
+    ]
+    
+    let imageItemsDictionary = [
+        0: ["puneCityIcon", "mumbaiCityIcon", "nagpurCityIcon"],
+        1: ["bangaloreCityIcon", "mysoreCityIcon", "hubliCityIcon"],
+        2: ["hyderabadCityIcon", "vijayawadaCityIcon", "vizagCityIcon"]
+    ]
     
     var filteredListItems: [(String, String)] {
-            let combinedItems = Array(zip(listItems, imageItems))
+        let currentListItems = listItemsDictionary[selectedIndex] ?? []
+        let currentImageItems = imageItemsDictionary[selectedIndex] ?? []
+        let combinedItems = Array(zip(currentListItems, currentImageItems))
         if searchText.isEmpty {
             return combinedItems
         } else {
@@ -27,9 +39,8 @@ struct ContentView: View {
         ScrollView {
             VStack {
                 ImageCarouselView(images: images, selectedIndex: $selectedIndex)
-                    
                     .frame(height: 300)
-                    
+                
                 SearchBar(text: $searchText)
                     .padding(.horizontal)
                 
